@@ -39,17 +39,6 @@ class Graph extends Component {
       .domain(domainY)
       .range(rangeY);
 
-    const circles = parsedData.map(d => (
-      <circle
-        cx={scaleX(d[0])}
-        cy={scaleY(d[1])}
-        r={5}
-        fill={d[1] < threshold ? "#0057cb" : "#f50057"}
-        stroke="none"
-        key={d}
-      />
-    ));
-
     // another slice with an extra point to render the starting bit of the line
     let slicePlus1 =
       data.length > maxPoints ? data.slice(data.length - maxPoints - 1) : data;
@@ -92,14 +81,6 @@ class Graph extends Component {
         {/* x and y axis ticks and labels */}
         {xTicks.map(tick => (
           <React.Fragment>
-            <line
-              x1={scaleX(tick)}
-              x2={scaleX(tick)}
-              y1="205"
-              y2="215"
-              stroke="black"
-              key={"xTick" + tick}
-            />
             <text
               x={scaleX(tick)}
               y="225"
@@ -117,8 +98,8 @@ class Graph extends Component {
         {yTicks.map(tick => (
           <React.Fragment>
             <line
-              x1="15"
-              x2="415"
+              x1="30"
+              x2="410"
               y1={scaleY(tick)}
               y2={scaleY(tick)}
               stroke="lightgray"
@@ -127,7 +108,7 @@ class Graph extends Component {
             <text
               x="25"
               y={scaleY(tick)}
-              dy="-2"
+              dy="3"
               fontFamily="Verdana"
               fontSize="10"
               fill="black"
@@ -141,15 +122,21 @@ class Graph extends Component {
         ))}
 
         {/* x and y axis */}
-        <line x1="5" x2="415" y1="210" y2="210" stroke="black" key="xAxis" />
-        <line x1="30" x2="30" y1="5" y2="225" stroke="black" key="yAxis" />
+        <line
+          x1="30"
+          x2="410"
+          y1="210"
+          y2="210"
+          stroke="lightgray"
+          key="xAxis"
+        />
 
         {/* curve, area and dots below the curve */}
         <path
           d={areaD}
           key="area"
           clipPath="url(#graphBody)"
-          fill="#71c4ff"
+          fill="#0083ff"
           fillOpacity="0.4"
           stroke="none"
         />
@@ -157,14 +144,14 @@ class Graph extends Component {
           d={lineD}
           key="path"
           clipPath="url(#graphBody)"
-          stroke="#0057cb"
+          stroke="#0083ff"
+          stroke-width="3"
         />
-        {circles}
 
         {/* threshold line and area */}
         <line
-          x1="15"
-          x2="415"
+          x1="30"
+          x2="410"
           y1={scaleY(threshold)}
           y2={scaleY(threshold)}
           stroke="#f50057"
@@ -184,6 +171,7 @@ class Graph extends Component {
           key="pathThreshold"
           clipPath="url(#graphThresholdBody)"
           stroke="#f50057"
+          stroke-width="3"
         />
       </svg>
     );
